@@ -1,1 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>My Scooter</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+
+body{
+    background:#050b14;
+    color:white;
+    min-height:100vh;
+    overflow:hidden;
+}
+
+
+.hero{
+
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:60px 8%;
+
+    background:
+    radial-gradient(circle at right,#4ade80 0%,transparent 35%),
+    linear-gradient(120deg,#06101f,#081522);
+
+}
+
+
+.text{
+
+    max-width:550px;
+
+}
+
+
+.small{
+
+    color:#5eead4;
+    letter-spacing:6px;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:35px;
+
+}
+
+
+
+h1{
+
+    font-size:90px;
+    line-height:0.9;
+    font-weight:900;
+
+}
+
+
+h1 span{
+
+    color:#5eead4;
+
+}
+
+
+p{
+
+    margin-top:35px;
+    color:#b7c4d8;
+    font-size:20px;
+
+}
+
+
+
+button{
+
+    margin-top:40px;
+
+    padding:18px 45px;
+
+    border:none;
+    border-radius:50px;
+
+    background:#5eead4;
+    color:#00110f;
+
+    font-size:18px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+
+button:hover{
+
+    transform:scale(1.05);
+
+}
+
+
+
+.scooter{
+
+    width:45%;
+    height:400px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+
+
+.scooter img{
+
+    width:100%;
+    max-width:650px;
+
+    filter:drop-shadow(0 0 40px #5eead4);
+
+    animation:float 4s infinite ease-in-out;
+
+}
+
+
+
+@keyframes float{
+
+    50%{
+
+        transform:translateY(-20px);
+
+    }
+
+}
+
+
+
+@media(max-width:900px){
+
+
+.hero{
+
+    flex-direction:column;
+    text-align:center;
+    overflow:auto;
+
+}
+
+
+h1{
+
+    font-size:55px;
+
+}
+
+
+.scooter{
+
+    width:90%;
+    height:250px;
+
+}
+
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<section class="hero">
+
+
+<div class="text">
+
+
+<div class="small">
+SMART ELECTRIC MOBILITY
+</div>
+
+
+<h1>
+
+Your Ride.
+<br>
+
+<span>Your Control.</span>
+
+</h1>
+
+
+<p>
+
+Your scooter. Connected to you.
+<br>
+Control speed, lights and driving modes.
+
+</p>
+
+
+
+<button onclick="openDashboard()">
+
+OPEN DASHBOARD →
+
+</button>
+
+
+</div>
+
+
+
+<div class="scooter">
+
+
+<img src="scooter.png" alt="Electric Scooter">
+
+
+</div>
+
+
+
+</section>
+
+
+
+<script>
+
+
+function openDashboard(){
+
+window.location.href="dashboard.html";
+
+}
+
+
+</script>
+
+
+
+</body>
+</html>
