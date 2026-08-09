@@ -1654,136 +1654,129 @@ function stopQRScanner() {
 
 async function connectScooter() {
 
-
-    document
-        .getElementById(
-            "message"
-        )
-        .innerText = "";
-
+    const message = document.getElementById("message");
+    const statusText = document.getElementById("statusText");
 
     if (!navigator.bluetooth) {
-
-        document
-            .getElementById(
-                "statusText"
-            )
-            .innerText =
-            "Bluetooth nicht unterstützt";
-
-
+        message.innerText =
+            "Web Bluetooth wird auf diesem Gerät/Browser nicht unterstützt.";
         return;
-
     }
-
 
     try {
 
-
-        document
-            .getElementById(
-                "statusText"
-            )
-            .innerText =
-            "Bluetooth-Geräte werden gesucht...";
-
+        message.innerText = "Suche nach Xiaomi Scooter...";
+        statusText.innerText = "Bluetooth-Geräte werden gesucht...";
 
         bluetoothDevice =
-    await navigator.bluetooth.requestDevice({
+            await navigator.bluetooth.requestDevice({
 
-        acceptAllDevices: true,
+                acceptAllDevices: true,
 
-optionalServices: [
-    "0000fe95-0000-1000-8000-00805f9b34fb"
-]
+                optionalServices: [
+                    "0000fe95-0000-1000-8000-00805f9b34fb"
+                ]
 
-    });
+            });
 
+        console.log("Gefunden:", bluetoothDevice);
 
-        const name =
-            bluetoothDevice.name
-            ||
-            "Bluetooth-Gerät";
+        statusText.innerText =
+            bluetoothDevice.name || "Xiaomi Scooter";
 
+        message.innerText =
+            "Gerät gefunden – verbinde...";
+
+        /* GATT VERBINDUNG */
+
+        const server =
+            await bluetoothDevice.gatt.connect();
+
+        console.log("GATT verbunden:", server);
+
+        /* SERVICES AUSLESEN */
+
+        const services =
+            await server.getPrimaryServices();
+
+        console.log("Services gefunden:", services);
+
+        services.forEach(service => {
+
+            console.log(
+                "SERVICE:",
+                service.uuid
+            );
+
+        });
+
+        /* UI */
 
         document
-            .getElementById(
-                "connection"
-            )
-            .innerText =
-            "● Verbunden";
-
+            .getElementById("connection")
+            .innerText = "● Verbunden";
 
         document
-            .getElementById(
-                "statusText"
-            )
-            .innerText =
-            name;
-
+            .getElementById("statusDot")
+            .style.background = "#42e6a4";
 
         document
-            .getElementById(
-                "statusDot"
-            )
-            .style.background =
-            "#42e6a4";
-
-
-        document
-            .getElementById(
-                "statusDot"
-            )
+            .getElementById("statusDot")
             .style.boxShadow =
-            "0 0 12px #42e6a4";
+                "0 0 12px #42e6a4";
 
+        statusText.innerText =
+            bluetoothDevice.name || "Xiaomi Scooter";
 
-        document
-            .getElementById(
-                "message"
-            )
-            .innerText =
-            "✓ Bluetooth-Gerät ausgewählt";
+        message.innerText =
+            "✓ Scooter verbunden";
 
+        /* DISCONNECT EVENT */
 
-        console.log(
-            "Bluetooth:",
-            bluetoothDevice
-        );
+        bluetoothDevice.addEventListener(
+            "gattserverdisconnected",
+            function () {
 
+                document
+                    .getElementById("connection")
+                    .innerText =
+                    "● Nicht verbunden";
 
-        console.log(
-            "QR-Code:",
-            scooterQR
+                document
+                    .getElementById("statusText")
+                    .innerText =
+                    "Scooter getrennt";
+
+                document
+                    .getElementById("statusDot")
+                    .style.background =
+                    "#64748b";
+
+                document
+                    .getElementById("statusDot")
+                    .style.boxShadow =
+                    "none";
+
+                message.innerText =
+                    "Bluetooth-Verbindung getrennt.";
+
+            }
         );
 
     }
-
 
     catch(error) {
 
+        console.error(error);
 
-        console.log(error);
+        message.innerText =
+            "Verbindung fehlgeschlagen: "
+            + error.message;
 
-
-        document
-            .getElementById(
-                "statusText"
-            )
-            .innerText =
+        statusText.innerText =
             "Nicht verbunden";
-
-
-        document
-            .getElementById(
-                "message"
-            )
-            .innerText =
-            "Bluetooth-Verbindung abgebrochen.";
-
     }
-
-}
+}}
 
 
 /* =========================
